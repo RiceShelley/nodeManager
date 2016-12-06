@@ -40,7 +40,7 @@ void create_job(char* cmd, char* ip_addr, int jRPort) {
 		char output[60000];
 		memset(output, '\0', 60000);
 		strcpy(output, "SYSJDONE>");
-		fread(&output[5], sizeof(char), 59990, outputf);
+		fread(&output[9], sizeof(char), 59990, outputf);
 		fclose(outputf);
 		if (jRPort != -1)
 		{
