@@ -32,16 +32,23 @@ void create_job(char* cmd, char* ip_addr, int jRPort) {
 	pid_t pid = fork();
 	if (pid == 0)
 	{
-		// do sys call send output to file
-		strcat(cmd, " > output");
-		system(cmd);
-		// get output of system call
-		FILE* outputf = fopen("output", "r");
 		char output[60000];
-		memset(output, '\0', 60000);
-		strcpy(output, "SYSJDONE>");
-		fread(&output[9], sizeof(char), 59990, outputf);
-		fclose(outputf);
+		// do sys call send output to file if cmd is not prefixed with ./bin
+		if (strncmp(cmd, "./bin", 5) != 0)
+		{
+			strcat(cmd, " > output");
+			system(cmd);
+			// get output of system call
+			FILE* outputf = fopen("output", "r");
+			memset(output, '\0', 60000);
+			strcpy(output, "SYSJDONE>");
+			fread(&output[9], sizeof(char), 59990, outputf);
+			fclose(outputf);
+		} else {
+			system(cmd);
+			memset(output, '\0', 60000);
+			strcpy(output, "SYSJDONE!");
+		}
 		if (jRPort != -1)
 		{
 			// attempt connection to socket at suplied address 
